@@ -1,0 +1,79 @@
+pipeline {
+ agent any
+ environment {
+    ROOT_PATH='/home/brana/Projects/KDE'
+    CODESYNC_SRC='/home/brana/Projects/KDE/documentation-generator/kdoxsync'
+    KAPIDOX_SRC='/home/brana/Projects/KDE/documentation-generator/kapidox/src'
+    CODESYNC_NAME='doxsync.py'
+    KAPIDOX_GENERATE='kapidox_generate'
+    PROJECT_DEFINITIONS='/home/brana/Projects/KDE/project-definitions'
+    ALL_SOURCES='/home/brana/Projects/KDE/all-sources'
+    INDEX_AND_SEARCH_GENERATE='index_and_search_generate.py'
+    ALL_DOCS='/home/brana/Projects/KDE/all-docs'
+    METAINFO_DIR='/home/brana/Projects/KDE/metainfo-dir'
+    INDEX_TYPE='frameworks'
+    SCRIPTS_DIR='/home/brana/Projects/KDE'
+ }
+ stages{
+    // Generate documentation for frameworks
+    stage("Frameworks docsync") {
+        steps {
+            script {
+                env.PRODUCT='frameworks'
+            }
+            sh "${SCRIPTS_DIR}/generate-product"
+        }
+    }
+    // Generate documentation for pim
+    stage("PIM docsync") {
+        steps {
+            script {
+                env.PRODUCT='pim'
+            }
+            sh "${SCRIPTS_DIR}/generate-product"
+        }
+    }
+    // Generate documentation for okular
+    stage("Okular docsync") {
+        steps {
+            script {
+                env.PRODUCT='okular'
+            }
+            sh "${SCRIPTS_DIR}/generate-product"
+        }
+    }
+    // Configure frameworks
+    stage("Frameworks config") {
+        steps {
+            script {
+                env.PRODUCT='frameworks'
+            }
+            sh "${SCRIPTS_DIR}/generate-config"
+        }
+    }
+    // Configure pim
+    stage("PIN config") {
+        steps {
+            script {
+                env.PRODUCT='pim'
+            }
+            sh "${SCRIPTS_DIR}/generate-config"
+        }
+    }
+    // Configure okular
+    stage("Okular config") {
+        steps {
+            script {
+                env.PRODUCT='okular'
+            }
+            sh "${SCRIPTS_DIR}/generate-config"
+        }
+    }
+    // Generate index page
+    stage("Generate index page") {
+        steps {
+            sh "${SCRIPTS_DIR}/generate-index"
+        }
+    }
+ }
+}
