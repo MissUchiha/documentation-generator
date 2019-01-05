@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Enter in all-docs and run
+#
+# export ALL_DOCS='/home/brana/Projects/KDE/all-docs'
+# export KAPIDOX_SRC='/home/brana/Projects/KDE/kapidox/src'
+# export INDEX_AND_SEARCH_GENERATE='index_and_search_generate.py'
+# export METAINFO_DIR='/home/brana/Projects/KDE/metainfo-dir'
+# export INDEX_TYPE='frameworks'
+
+##################################
+
+cd $ALL_DOCS
+
+COMMAND=''
+# if we want to create index page with frameworks list
+# execute script with specific argument
+if [ $INDEX_TYPE == 'frameworks' ]; then
+    echo "### Generating index page with frameworks list"
+    COMMAND="$KAPIDOX_SRC/$INDEX_AND_SEARCH_GENERATE --configdir $METAINFO_DIR/ --index-type frameworks"
+else
+    echo "### Generating index page with api reference list"
+    COMMAND="$KAPIDOX_SRC/$INDEX_AND_SEARCH_GENERATE --configdir $METAINFO_DIR/"
+fi
+
+eval $COMMAND

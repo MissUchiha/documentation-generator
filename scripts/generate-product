@@ -1,0 +1,48 @@
+#!/bin/bash
+#
+# ROOT_PATH='/home/brana/Projects/KDE'
+# CODESYNC_SRC='/home/brana/Projects/KDE/kdoxsync'
+# KAPIDOX_SRC='/home/brana/Projects/KDE/kapidox/src'
+# CODESYNC_NAME='doxsync.py'
+# KAPIDOX_GENERATE='kapidox_generate'
+# PROJECT_DEFINITIONS='/home/brana/Projects/KDE/project-definitions'
+# ALL_SOURCES='/home/brana/Projects/KDE/all-sources'
+# ALL_DOCS='/home/brana/Projects/KDE/all-docs'
+# PRODUCT='frameworks'
+
+###############################################
+
+# syncing code
+echo "### Syncing source code"
+eval "$CODESYNC_SRC/$CODESYNC_NAME \
+      --projects-definition $PROJECT_DEFINITIONS/$PRODUCT.yaml \
+      --sourcesdir $ALL_SOURCES"
+
+# creating temp dir for docs creation
+echo "### Create temp dir for docs"
+TEMP_DIR="$ROOT_PATH/$PRODUCT-docs"
+mkdir $TEMP_DIR
+
+# enter temp dir
+echo "### Enter temp dir"
+cd $TEMP_DIR
+
+if [ $PRODUCT == 'frameworks' ]; then
+  # MOST STUPID HACK IN THE WORLD, not for production
+  echo "### Copy metainfo sufix with frameworks definition to kcoreaddons Metainfo file"
+  cat /home/brana/Projects/KDE/metainfo-sufix.txt >> /home/brana/Projects/KDE/all-sources/frameworks/kcoreaddons/metainfo.yaml
+fi
+
+# generate docs
+echo "### Generate docs"
+eval "$KAPIDOX_SRC/$KAPIDOX_GENERATE $ALL_SOURCES/$PRODUCT --no-index-page --adjust-for-frameworks-index"
+
+cd ..
+
+# move generated docs to all docs directory
+echo "### Move generated docs to all docs directory"
+mv "$TEMP_DIR/$PRODUCT" $ALL_DOCS
+
+# delete temp directory
+echo "### Delete temp directory"
+rm -r $TEMP_DIR

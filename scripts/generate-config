@@ -1,0 +1,51 @@
+#!/bin/bash
+#
+# export METAINFO_DIR='/home/brana/Projects/KDE/metainfo-dir'
+# export PRODUCT='pim'
+# export ALL_DOCS='/home/brana/Projects/KDE/all-docs'
+# export ALL_SOURCES='/home/brana/Projects/KDE/all-sources'
+
+###############################################
+
+PRODUCTS_DIR="$ALL_SOURCES/$PRODUCT/*"
+SOURCE_CONFIG_FILES=('metainfo.yaml' 'CMakeLists.txt')
+DOCS_CONFIG_FILES=('searchdata.xml' 'searchdata.json')
+
+# first argument is sufix for path
+# to the product docs and sources
+function copy_config_files {
+  # only if metainfo.yaml is found in sourcesdir
+  # create directory and copy source config files
+  if [ -f "$ALL_SOURCES/$1/${SOURCE_CONFIG_FILES[0]}" ]; then
+    if [ ! -d "$METAINFO_DIR/$1" ]; then
+      echo "### Creating directory $METAINFO_DIR/$1"
+      mkdir -p "$METAINFO_DIR/$1"
+    fi
+    for F in "${SOURCE_CONFIG_FILES[@]}"; do
+      if [ -f "$ALL_SOURCES/$1/$F" ]; then
+        echo "### Copying $ALL_SOURCES/$1/$F to $METAINFO_DIR/$1"
+        cp "$ALL_SOURCES/$1/$F" "$METAINFO_DIR/$1"
+      fi
+    done
+  fi
+  # create metainfo dir if docs config file exists
+  # and copy it
+  for F in "${DOCS_CONFIG_FILES[@]}"; do
+    if [ -f "$ALL_DOCS/$1/$F" ]; then
+      if [ ! -d "$METAINFO_DIR/$1" ]; then
+        echo "### Creating directory $METAINFO_DIR/$1"
+        mkdir -p "$METAINFO_DIR/$1"
+      fi
+      echo "### Copying $ALL_DOCS/$1/$F to $METAINFO_DIR/$1"
+      cp "$ALL_DOCS/$1/$F" "$METAINFO_DIR/$1"
+    fi
+  done
+}
+
+copy_config_files $PRODUCT
+
+for D in $PRODUCTS_DIR; do
+  if [ -d "${D}" ]; then
+    copy_config_files "$PRODUCT/$(basename $D)"
+  fi
+done
