@@ -1,18 +1,19 @@
 pipeline {
  agent any
  environment {
-    ROOT_PATH='/home/brana/Projects/KDE'
-    CODESYNC_SRC='/home/brana/Projects/KDE/documentation-generator/kdoxsync'
-    KAPIDOX_SRC='/home/brana/Projects/KDE/documentation-generator/kapidox/src'
-    CODESYNC_NAME='doxsync.py'
-    KAPIDOX_GENERATE='kapidox_generate'
-    PROJECT_DEFINITIONS='/home/brana/Projects/KDE/project-definitions'
-    ALL_SOURCES='/home/brana/Projects/KDE/all-sources'
-    INDEX_AND_SEARCH_GENERATE='index_and_search_generate.py'
-    ALL_DOCS='/home/brana/Projects/KDE/all-docs'
-    METAINFO_DIR='/home/brana/Projects/KDE/metainfo-dir'
-    INDEX_TYPE='frameworks'
-    SCRIPTS_DIR='/home/brana/Projects/KDE'
+    // Export all necessary env variables
+    // ROOT_PATH='/home/brana/Projects/KDE'
+    // CODESYNC_SRC='/home/brana/Projects/KDE/documentation-generator/kdoxsync'
+    // KAPIDOX_SRC='/home/brana/Projects/KDE/documentation-generator/kapidox/src'
+    // CODESYNC_NAME='doxsync.py'
+    // KAPIDOX_GENERATE='kapidox_generate'
+    // PROJECT_DEFINITIONS='/home/brana/Projects/KDE/project-definitions'
+    // ALL_SOURCES='/home/brana/Projects/KDE/all-sources'
+    // INDEX_AND_SEARCH_GENERATE='index_and_search_generate.py'
+    // ALL_DOCS='/home/brana/Projects/KDE/all-docs'
+    // METAINFO_DIR='/home/brana/Projects/KDE/metainfo-dir'
+    // INDEX_TYPE='frameworks'
+    // SCRIPTS_DIR='/home/brana/Projects/KDE'
  }
  stages{
     // Generate documentation for frameworks
