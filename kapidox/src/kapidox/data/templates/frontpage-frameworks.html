@@ -1,0 +1,36 @@
+<!-- AUTHOR: bran -->
+
+{% extends "base.html" %}
+
+{% block page_title %}{{title}}{% endblock %}
+
+{% block head %}
+  <script type="text/javascript" src="{{resources}}/notetip.js"></script>
+  <script type="text/javascript" src="{{resources}}/frameworks.js"></script>
+  <link rel="stylesheet" type="text/css" href="{{resources}}/frameworks.css" />
+  <script>
+  $(document).ready(main);
+  </script>
+{% endblock %}
+
+{% block title %}
+    The KDE products
+{% endblock %}
+
+{% block content %}
+              <div class="textblock">
+                {% for para in intro %}
+                  <p>{{ para }}</p>
+                {% endfor %}
+              </div>
+              <h3>List of our frameworks</h3>
+
+              {% include "subgroup-list.html" %}
+
+{% endblock content %}
+
+{% block sidebar %}
+    {% include "frontpage-sidebar-frameworks.html" %}
+{% endblock %}
+
+<!-- end -->

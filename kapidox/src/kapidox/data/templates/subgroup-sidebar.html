@@ -1,0 +1,57 @@
+<div class="menu-box">
+    <div class="menu-title">
+    <h2>Table of Content</h2>
+    </div>
+    <div class="menu-content">
+    <ul>
+        <li>
+        <ul>
+            {% if group.libraries | selectattr('subproducts', 'none') | list | length > 0 %}
+            {% if group.subproduct | length > 0 %}
+            <li><a href="#sg-{{ nosubproduct }}">Without subgroup</a></li>
+            {% else  %}
+            <li><a href="#content">All</a></li>
+            {% endif %}
+            {% endif %}
+            {% for subproduct in group.subproducts | sort(attribute='order') %}
+            <li><a href="#sg-{{ subproduct.name }}">{{ subproduct.fancyname }}</a></li>
+            {% endfor %}
+        </ul>
+        </li>
+    </ul>
+    </div>
+</div>
+
+<div class="menu-box">
+    <div class="menu-title">
+    <h2>Filters</h2>
+    </div>
+    <div class="menu-content">
+    <ul>
+        <li>
+        <label>
+            <input id="platform-filter" type="checkbox"> Filter by platform
+        </label>
+        <ul id="platform-filter-group" style="display: none">
+            <li><br><i>Only show libraries which supports all of:</i></li>
+            {% for platform in available_platforms | sort %}
+            <li>
+                <label>
+                <input data-platform="{{ platform }}" class="platform-checkbox" type="checkbox" checked="1"> {{ platform }}
+                </label>
+            </li>
+            {% endfor %}
+            <br />
+        </ul>
+        </li>
+        <li>
+        <label>
+            <input id="showMaintainers" type="checkbox"> Show maintainers
+        </label>
+        </li>
+    </ul>
+    </div>
+</div>
+<!-- AUTHOR: bran  -->
+{% include "subgroup-about.html" %}
+<!-- end -->

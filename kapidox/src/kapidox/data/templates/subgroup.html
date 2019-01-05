@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% macro write_toc(title, subgroups) %}
+  <li>{{ title }}
+    <ul>
+      {% for subgroup in subgroups %}
+        <li><a href="#sg-{{ subgroup.name }}">{{ subgroup.fancyname }}</a></li>
+      {% endfor %}
+    </ul>
+  </li>
+{% endmacro %}
+
+{% block page_title %}{{ title }}{% endblock %}
+
+{% block head %}
+  <script type="text/javascript" src="{{resources}}/js/notetip.js"></script>
+  <script type="text/javascript" src="{{resources}}/js/subgroup.js"></script>
+  <script>
+  $(document).ready(main);
+  </script>
+{% endblock %}
+
+{% block title %}
+    {{ group.fancyname }}
+{% endblock %}
+
+{% block content %}
+    <!-- AUTHOR: bran  -->
+    {% include "subgroup-list.html" %}
+    <!-- end -->
+{% endblock content %}
+
+{% block sidebar %}
+    {% include "subgroup-sidebar.html" %}
+{% endblock %}
